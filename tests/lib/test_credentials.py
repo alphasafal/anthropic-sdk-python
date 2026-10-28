@@ -40,7 +40,7 @@ from anthropic import (
 )
 from anthropic._version import __version__
 from anthropic._base_client import FinalRequestOptions
-from anthropic.lib.credentials import BaseURLBoundProvider
+from anthropic.lib.credentials import BaseURLBoundProvider, _constants as _credential_constants
 from anthropic.lib.credentials._types import is_async_token_provider
 from anthropic.lib.credentials._constants import (
     TOKEN_ENDPOINT,
@@ -55,20 +55,7 @@ TOKEN_URL = f"{BASE_URL}{TOKEN_ENDPOINT}"
 OTHER_BASE_URL = "https://api.other.example"
 OTHER_TOKEN_URL = f"{OTHER_BASE_URL}{TOKEN_ENDPOINT}"
 
-_ALL_ENV = [
-    "ANTHROPIC_API_KEY",
-    "ANTHROPIC_AUTH_TOKEN",
-    "ANTHROPIC_CONFIG_DIR",
-    "ANTHROPIC_PROFILE",
-    "ANTHROPIC_IDENTITY_TOKEN",
-    "ANTHROPIC_IDENTITY_TOKEN_FILE",
-    "ANTHROPIC_FEDERATION_RULE_ID",
-    "ANTHROPIC_ORGANIZATION_ID",
-    "ANTHROPIC_SERVICE_ACCOUNT_ID",
-    "ANTHROPIC_WORKSPACE_ID",
-    "ANTHROPIC_SCOPE",
-    "ANTHROPIC_BASE_URL",
-]
+_ALL_ENV = [value for name, value in vars(_credential_constants).items() if name.startswith("ENV_")]
 
 
 class MockRequestCall(Protocol):
